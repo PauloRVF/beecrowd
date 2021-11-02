@@ -1,2 +1,2 @@
 # beecrowd
-Beecrown exercises w/ Elixir
+Beecrowd exercises w/ Elixir
