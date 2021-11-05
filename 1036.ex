@@ -62,8 +62,6 @@ if (fn_delta.(a, b, c) < 0) or (a == 0) do
 else
   res = bhaskara.(a, b, (fn_delta.(a, b, c)))
 
-  #Result diverges in decimals because of floint pointer?
-
   IO.puts("R1 = #{res |> Enum.at(0) |> BcParse.float_to_str(5)}")
   IO.puts("R2 = #{res |> Enum.at(1) |> BcParse.float_to_str(5)}")
 end
