@@ -45,7 +45,7 @@ defmodule BcInput do
 end
 
 fn_delta = fn a, b, c ->
-  round(:math.pow(b, 2) - 4 * a * c)
+  :math.pow(b, 2) - 4 * a * c
 end
 
 bhaskara = fn a, b, delta ->
