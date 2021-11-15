@@ -1,4 +1,4 @@
-#https://www.beecrowd.com.br/judge/pt/problems/view/1101
+#https://www.beecrowd.com.br/judge/pt/problems/view/1114
 
 defmodule BcParse do
   def str_to_float(str) do
@@ -69,27 +69,21 @@ defmodule BcEnumAux do
   def is_in_range(value, {min, max}), do: (value >= min) and (value <= max)
 end
 
-defmodule Ex1101 do
-  def start() do
-    [m, n] = BcInput.input_as_integer_array()
-    compute(m, n)
+defmodule Ex1114 do
+  @correct_password 2002
+
+  def try_autenticate do
+    input = BcInput.input_as_integer()
+
+    case validate_password(input) do
+      {:ok, successful} -> IO.puts(successful)
+      {:error, reason}  -> IO.puts(reason)
+                           try_autenticate()
+    end
   end
 
-  defp compute(start, final) when start == 0 or final == 0, do: nil
-  defp compute(start, final) do
-    list = expand_values(start, final)
-
-    Enum.each(list, &(IO.write "#{&1} ") )
-    IO.puts("Sum=#{Enum.sum(list)}")
-
-    start()
-  end
-
-  defp expand_values(m, n) do
-    m..n
-    |> Enum.to_list()
-    |> Enum.sort()
-  end
+  def validate_password(password) when password == @correct_password, do: {:ok, "Acesso Permitido"}
+  def validate_password(_), do: {:error, "Senha Invalida"}
 end
 
-Ex1101.start()
+Ex1114.try_autenticate()

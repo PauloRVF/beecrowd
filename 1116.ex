@@ -1,4 +1,4 @@
-#https://www.beecrowd.com.br/judge/pt/problems/view/1101
+#https://www.beecrowd.com.br/judge/pt/problems/view/1116
 
 defmodule BcParse do
   def str_to_float(str) do
@@ -69,27 +69,24 @@ defmodule BcEnumAux do
   def is_in_range(value, {min, max}), do: (value >= min) and (value <= max)
 end
 
-defmodule Ex1101 do
-  def start() do
-    [m, n] = BcInput.input_as_integer_array()
-    compute(m, n)
+defmodule Ex1116 do
+  def start_cases(0), do: nil
+  def start_cases(n) do
+    [x, y] = BcInput.input_as_integer_array()
+    evaluate(x, y)
+    start_cases(n - 1)
   end
 
-  defp compute(start, final) when start == 0 or final == 0, do: nil
-  defp compute(start, final) do
-    list = expand_values(start, final)
-
-    Enum.each(list, &(IO.write "#{&1} ") )
-    IO.puts("Sum=#{Enum.sum(list)}")
-
-    start()
+  def evaluate(x, y) do
+    case get_output(x, y) do
+      {:error, reason} -> IO.puts(reason)
+      {:ok, result}    -> IO.puts(result)
+    end
   end
 
-  defp expand_values(m, n) do
-    m..n
-    |> Enum.to_list()
-    |> Enum.sort()
-  end
+  def get_output(_, y) when y == 0, do: {:error, "divisao impossivel"}
+  def get_output(x, y), do: {:ok, BcParse.float_to_str(x / y, 1)}
 end
 
-Ex1101.start()
+n_test = BcInput.input_as_integer()
+Ex1116.start_cases(n_test)

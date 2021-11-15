@@ -1,4 +1,4 @@
-#https://www.beecrowd.com.br/judge/pt/problems/view/1101
+#https://www.beecrowd.com.br/judge/pt/problems/view/1113
 
 defmodule BcParse do
   def str_to_float(str) do
@@ -69,27 +69,23 @@ defmodule BcEnumAux do
   def is_in_range(value, {min, max}), do: (value >= min) and (value <= max)
 end
 
-defmodule Ex1101 do
+defmodule Ex1113 do
   def start() do
-    [m, n] = BcInput.input_as_integer_array()
-    compute(m, n)
+    [first, last] = BcInput.input_as_integer_array()
+
+    print_order(first, last)
   end
 
-  defp compute(start, final) when start == 0 or final == 0, do: nil
-  defp compute(start, final) do
-    list = expand_values(start, final)
+  def print_order(first, last) when first == last, do: nil
+  def print_order(first, last) do
+    order = cond do
+      first > last -> "Decrescente"
+              true -> "Crescente"
+    end
 
-    Enum.each(list, &(IO.write "#{&1} ") )
-    IO.puts("Sum=#{Enum.sum(list)}")
-
+    IO.puts(order)
     start()
-  end
-
-  defp expand_values(m, n) do
-    m..n
-    |> Enum.to_list()
-    |> Enum.sort()
   end
 end
 
-Ex1101.start()
+Ex1113.start()

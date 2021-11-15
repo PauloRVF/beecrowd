@@ -1,4 +1,4 @@
-#https://www.beecrowd.com.br/judge/pt/problems/view/1101
+#https://www.beecrowd.com.br/judge/pt/problems/view/1117
 
 defmodule BcParse do
   def str_to_float(str) do
@@ -69,27 +69,27 @@ defmodule BcEnumAux do
   def is_in_range(value, {min, max}), do: (value >= min) and (value <= max)
 end
 
-defmodule Ex1101 do
+defmodule Ex1117 do
   def start() do
-    [m, n] = BcInput.input_as_integer_array()
-    compute(m, n)
+    note1 = get_valid_note()
+    note2 = get_valid_note()
+
+    IO.puts("media = #{((note1 + note2) / 2) |> BcParse.float_to_str(2)}")
   end
 
-  defp compute(start, final) when start == 0 or final == 0, do: nil
-  defp compute(start, final) do
-    list = expand_values(start, final)
+  defp get_valid_note do
+    note = BcInput.input_as_float()
 
-    Enum.each(list, &(IO.write "#{&1} ") )
-    IO.puts("Sum=#{Enum.sum(list)}")
-
-    start()
+    if is_valid_note(note) do
+      note
+    else
+      IO.puts("nota invalida")
+      get_valid_note()
+    end
   end
 
-  defp expand_values(m, n) do
-    m..n
-    |> Enum.to_list()
-    |> Enum.sort()
-  end
+  defp is_valid_note(note) when note > 0 and note <= 10, do: true
+  defp is_valid_note(_note), do: false
 end
 
-Ex1101.start()
+Ex1117.start()
