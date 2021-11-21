@@ -68,21 +68,14 @@ defmodule BcEnumAux do
   def is_in_range(value, {min, max}), do: (value >= min) and (value <= max)
 end
 
-defmodule Ex1156 do
-  def get_n_divisors(n) do
-    compute(n-1, [2])
-    |> Enum.reverse()
-  end
-  def compute(0, list), do: list
-  def compute(n, [first | _] = list ) do
-    compute(n - 1, [first * 2 | list])
-  end
-end
-
 odd_numbers = 3..39//2 |> Enum.to_list()
-divisors = Ex1156.get_n_divisors(Enum.count odd_numbers)
+divisors = Enum.map(1..Enum.count(odd_numbers), fn x ->
+  trunc :math.pow(2, x)
+end)
 
 Enum.zip(odd_numbers, divisors)
 |> Enum.reduce(1, fn x, acc -> acc + (elem(x, 0) / elem(x, 1)) end)
 |> BcParse.float_to_str(2)
 |> IO.puts()
+
+#Refactored

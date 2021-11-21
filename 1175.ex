@@ -1,4 +1,4 @@
-#https://www.beecrowd.com.br/judge/pt/problems/view/1159
+#https://www.beecrowd.com.br/judge/pt/problems/view/1175
 
 defmodule BcParse do
   def str_to_float(str) do
@@ -61,6 +61,17 @@ defmodule BcInput do
     input = BcInput.input_as_integer()
     do_input_n_integers(n_times - 1, [input | list])
   end
+
+  def input_n_floats(n_times) do
+    do_input_n_floats(n_times, [])
+    |> Enum.reverse()
+  end
+
+  defp do_input_n_floats(0, list), do: list
+  defp do_input_n_floats(n_times, list) do
+    input = BcInput.input_as_float()
+    do_input_n_floats(n_times - 1, [input | list])
+  end
 end
 
 defmodule BcEnumAux do
@@ -68,30 +79,7 @@ defmodule BcEnumAux do
   def is_in_range(value, {min, max}), do: (value >= min) and (value <= max)
 end
 
-defmodule Ex1159 do
-  require Integer
-
-  def start do
-    input = BcInput.input_as_integer()
-
-    case input do
-      0 -> nil
-      _ -> calc_and_print(input, 5)
-           start()
-    end
-  end
-
-  def calc_and_print(init, count) do
-    initial = if Integer.is_even(init), do: init, else: init + 1
-
-    Stream.iterate(initial, & &1 + 2)
-    |> Enum.take(count)
-    |> Enum.sum()
-    |> IO.puts()
-  end
-end
-
-Ex1159.start()
-
-#using stream.iterate to generate infinity lazy evaluable list, with a function generate
-#a interval step
+BcInput.input_n_integers(20)
+|> Enum.reverse()
+|> Enum.with_index()
+|> Enum.each(fn x -> IO.puts("N[#{elem(x, 1)}] = #{elem(x, 0)}") end)

@@ -1,4 +1,4 @@
-#https://www.beecrowd.com.br/judge/pt/problems/view/1159
+#https://www.beecrowd.com.br/judge/pt/problems/view/1176
 
 defmodule BcParse do
   def str_to_float(str) do
@@ -61,6 +61,17 @@ defmodule BcInput do
     input = BcInput.input_as_integer()
     do_input_n_integers(n_times - 1, [input | list])
   end
+
+  def input_n_floats(n_times) do
+    do_input_n_floats(n_times, [])
+    |> Enum.reverse()
+  end
+
+  defp do_input_n_floats(0, list), do: list
+  defp do_input_n_floats(n_times, list) do
+    input = BcInput.input_as_float()
+    do_input_n_floats(n_times - 1, [input | list])
+  end
 end
 
 defmodule BcEnumAux do
@@ -68,30 +79,21 @@ defmodule BcEnumAux do
   def is_in_range(value, {min, max}), do: (value >= min) and (value <= max)
 end
 
-defmodule Ex1159 do
-  require Integer
-
-  def start do
+defmodule Ex1176 do
+  def test_cases(0), do: nil
+  def test_cases(n) do
     input = BcInput.input_as_integer()
-
-    case input do
-      0 -> nil
-      _ -> calc_and_print(input, 5)
-           start()
-    end
+    IO.puts("Fib(#{input}) = #{fib(input)}")
+    test_cases(n - 1)
   end
 
-  def calc_and_print(init, count) do
-    initial = if Integer.is_even(init), do: init, else: init + 1
-
-    Stream.iterate(initial, & &1 + 2)
-    |> Enum.take(count)
-    |> Enum.sum()
-    |> IO.puts()
+  defp fib(n), do: fib(n, 0, 1)
+  defp fib(0, _acc1, _acc2), do: 0
+  defp fib(1, _acc1, acc2), do: acc2
+  defp fib(n, acc1, acc2) do
+    fib(n - 1, acc2, acc1 + acc2)
   end
 end
 
-Ex1159.start()
-
-#using stream.iterate to generate infinity lazy evaluable list, with a function generate
-#a interval step
+input = BcInput.input_as_integer()
+Ex1176.test_cases(input)

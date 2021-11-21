@@ -1,4 +1,4 @@
-#https://www.beecrowd.com.br/judge/pt/problems/view/1159
+#https://www.beecrowd.com.br/judge/pt/problems/view/1173
 
 defmodule BcParse do
   def str_to_float(str) do
@@ -68,30 +68,8 @@ defmodule BcEnumAux do
   def is_in_range(value, {min, max}), do: (value >= min) and (value <= max)
 end
 
-defmodule Ex1159 do
-  require Integer
-
-  def start do
-    input = BcInput.input_as_integer()
-
-    case input do
-      0 -> nil
-      _ -> calc_and_print(input, 5)
-           start()
-    end
-  end
-
-  def calc_and_print(init, count) do
-    initial = if Integer.is_even(init), do: init, else: init + 1
-
-    Stream.iterate(initial, & &1 + 2)
-    |> Enum.take(count)
-    |> Enum.sum()
-    |> IO.puts()
-  end
-end
-
-Ex1159.start()
-
-#using stream.iterate to generate infinity lazy evaluable list, with a function generate
-#a interval step
+input = BcInput.input_as_integer()
+Stream.iterate(input, & &1 * 2)
+|> Enum.take(10)
+|> Enum.with_index()
+|> Enum.each(fn x -> IO.puts("N[#{elem(x, 1)}] = #{elem(x, 0)}") end)

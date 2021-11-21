@@ -1,4 +1,4 @@
-#https://www.beecrowd.com.br/judge/pt/problems/view/1159
+#https://www.beecrowd.com.br/judge/pt/problems/view/1165
 
 defmodule BcParse do
   def str_to_float(str) do
@@ -68,30 +68,30 @@ defmodule BcEnumAux do
   def is_in_range(value, {min, max}), do: (value >= min) and (value <= max)
 end
 
-defmodule Ex1159 do
-  require Integer
+defmodule Ex1165 do
 
-  def start do
-    input = BcInput.input_as_integer()
+  def test_cases(0), do: nil
+  def test_cases(n) do
+    BcInput.input_as_integer()
+    |>  notify_user()
 
-    case input do
-      0 -> nil
-      _ -> calc_and_print(input, 5)
-           start()
-    end
+    test_cases(n - 1)
   end
 
-  def calc_and_print(init, count) do
-    initial = if Integer.is_even(init), do: init, else: init + 1
+  defp is_prime(n) do
+    2..n
+    |> Enum.filter(& rem(n, &1) == 0)
+    |> Enum.count() == 1
+  end
 
-    Stream.iterate(initial, & &1 + 2)
-    |> Enum.take(count)
-    |> Enum.sum()
-    |> IO.puts()
+  defp notify_user(n) do
+    if is_prime(n) do
+      IO.puts("#{n} eh primo")
+    else
+      IO.puts("#{n} nao eh primo")
+    end
   end
 end
 
-Ex1159.start()
-
-#using stream.iterate to generate infinity lazy evaluable list, with a function generate
-#a interval step
+tests = BcInput.input_as_integer()
+Ex1165.test_cases(tests)
