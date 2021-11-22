@@ -79,13 +79,41 @@ defmodule BcEnumAux do
   def is_in_range(value, {min, max}), do: (value >= min) and (value <= max)
 end
 
-input = BcInput.input_as_float
+defmodule Ex1179 do
+  require Integer
 
-Stream.iterate(input, & &1 / 2)
-|> Enum.take(100)
-|> Enum.with_index()
-|> Enum.each(fn x -> IO.puts("N[#{elem(x, 1)}] = #{elem(x, 0) |> BcParse.float_to_str(4)}") end)
+  def start do
+    start_reading(15)
+  end
 
+  defp start_reading(n), do: start_reading(n, [], [])
+  defp start_reading(0, odds, evens) do
+    if Enum.count(odds) > 0, do: print_queue(odds, "impar")
+    if Enum.count(evens) > 0, do: print_queue(evens, "par")
+  end
+  defp start_reading(n, odds, evens) do
+    input = BcInput.input_as_integer()
 
-# Result in an error, some numbers not go as expected example test with 200.0000 the N[8] expected
-# to be 0.7812 but correct is 0.7813
+    new_evens = if Integer.is_even(input), do: enqueue(evens, "par", input), else: evens
+    new_odds = if !Integer.is_even(input), do: enqueue(odds, "impar", input), else: odds
+
+    start_reading(n - 1, new_odds, new_evens)
+  end
+
+  defp enqueue(queue, label, value) do
+    if Enum.count(queue) == 5 do
+      print_queue(queue, label)
+      [value]
+    else
+      [value | queue]
+    end
+  end
+
+  defp print_queue(queue, label) do
+    Enum.reverse(queue)
+    |> Enum.with_index()
+    |> Enum.each(fn x -> IO.puts("#{label}[#{elem(x, 1)}] = #{elem(x, 0)}") end)
+  end
+end
+
+Ex1179.start()

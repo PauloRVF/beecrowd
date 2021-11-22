@@ -1,4 +1,4 @@
-#https://www.beecrowd.com.br/judge/pt/problems/view/1179
+#https://www.beecrowd.com.br/judge/pt/problems/view/1180
 
 defmodule BcParse do
   def str_to_float(str) do
@@ -79,13 +79,37 @@ defmodule BcEnumAux do
   def is_in_range(value, {min, max}), do: (value >= min) and (value <= max)
 end
 
-input = BcInput.input_as_float
+defmodule Ex1181 do
+  def start do
+    line_to_calc = BcInput.input_as_integer()
+    operation = IO.gets("") |> String.trim()
+    matrix = get_matrix(12, 12)
 
-Stream.iterate(input, & &1 / 2)
-|> Enum.take(100)
-|> Enum.with_index()
-|> Enum.each(fn x -> IO.puts("N[#{elem(x, 1)}] = #{elem(x, 0) |> BcParse.float_to_str(4)}") end)
+    result = if operation == "S", do: sum_line(matrix, line_to_calc), else: avg_line(matrix, line_to_calc)
 
+    result
+    |> BcParse.float_to_str(1)
+    |> IO.puts()
+  end
 
-# Result in an error, some numbers not go as expected example test with 200.0000 the N[8] expected
-# to be 0.7812 but correct is 0.7813
+  defp get_matrix(lines, columns), do: get_matrix(lines, columns, [])
+  defp get_matrix(0, _, matrix), do: Enum.reverse matrix
+  defp get_matrix(lines, columns, matrix) do
+    line = BcInput.input_n_integers(columns)
+
+    get_matrix(lines - 1, columns, [line | matrix])
+  end
+
+  defp sum_line(matrix, line) do
+    Enum.at(matrix, line)
+    |> Enum.sum()
+    |> Kernel./(1)
+  end
+
+  defp avg_line(matrix, line) do
+    values = Enum.at(matrix, line)
+    Enum.sum(values) / Enum.count(values)
+  end
+end
+
+Ex1181.start()

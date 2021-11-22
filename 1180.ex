@@ -1,4 +1,4 @@
-#https://www.beecrowd.com.br/judge/pt/problems/view/1179
+#https://www.beecrowd.com.br/judge/pt/problems/view/1180
 
 defmodule BcParse do
   def str_to_float(str) do
@@ -79,13 +79,8 @@ defmodule BcEnumAux do
   def is_in_range(value, {min, max}), do: (value >= min) and (value <= max)
 end
 
-input = BcInput.input_as_float
+_input = BcInput.input_as_integer()
+vector = BcInput.input_as_integer_array()
 
-Stream.iterate(input, & &1 / 2)
-|> Enum.take(100)
-|> Enum.with_index()
-|> Enum.each(fn x -> IO.puts("N[#{elem(x, 1)}] = #{elem(x, 0) |> BcParse.float_to_str(4)}") end)
-
-
-# Result in an error, some numbers not go as expected example test with 200.0000 the N[8] expected
-# to be 0.7812 but correct is 0.7813
+IO.puts("Menor valor: #{Enum.min(vector)}")
+IO.puts("Posicao: #{Enum.find_index(vector, & &1 == Enum.min(vector))}")
